@@ -7,10 +7,8 @@ Supports macOS and Linux. Java 21 or newer is required to run Flix.
 
 ## Installation
 
-Once this repository is published, replace `<owner>` with its GitHub owner:
-
 ```sh
-mise plugins install flix https://github.com/<owner>/mise-flix
+mise plugins install flix https://github.com/tenten0213/mise-flix
 mise use flix@0.79.0
 flix --version
 ```
@@ -19,7 +17,7 @@ Or declare the plugin in your project's `mise.toml`:
 
 ```toml
 [plugins]
-flix = "https://github.com/<owner>/mise-flix"
+flix = "https://github.com/tenten0213/mise-flix"
 
 [tools]
 flix = "0.79.0"
