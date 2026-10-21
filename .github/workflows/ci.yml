@@ -21,6 +21,11 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
+      - name: Install Lua build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libreadline-dev
       - uses: jdx/mise-action@v2
       - run: mise run check
       - run: mise run smoke
