@@ -26,10 +26,9 @@ flix = "0.79.0"
 Run `mise install` to install the configured Flix version. For a reproducible
 plugin installation, append `#<full-commit-sha>` to the plugin URL.
 
-## Java and SDKMAN!
+## Java runtime
 
-Java can be managed with SDKMAN!, mise, or another tool. The plugin neither
-installs Java nor changes `JAVA_HOME`.
+Java 21 or newer is required and can be installed and managed with any tool.
 
 The `flix` launcher chooses Java **each time it runs**:
 
@@ -37,8 +36,7 @@ The `flix` launcher chooses Java **each time it runs**:
 2. Otherwise, use `java` from `PATH`.
 3. Report an error if Java cannot start or is older than Java 21.
 
-Select an installed JDK with `sdk use java <candidate>`, or use `sdk env` with
-your project's `.sdkmanrc`. Then run:
+Configure `JAVA_HOME` or `PATH` in your shell, then run:
 
 ```sh
 mise exec -- flix --version
@@ -46,8 +44,7 @@ mise exec -- flix init
 mise exec -- flix run
 ```
 
-These commands use the Java selected in the current shell. The launcher does not
-initialize SDKMAN! itself; initialize it before running Flix, including in CI.
+These commands use the Java environment of the current shell.
 `flix init` and `flix run` operate on the current working directory.
 
 If you prefer mise to manage Java too, optionally add it to `[tools]`:
