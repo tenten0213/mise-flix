@@ -1,0 +1,19 @@
+[tools]
+lua = "5.1"
+stylua = "2"
+
+[tasks.test]
+description = "Run offline hook and launcher tests"
+run = ["lua tests/hooks.lua", "python3 -m unittest discover -s tests -p 'test_*.py'"]
+
+[tasks.lint]
+description = "Check Lua formatting and shell syntax"
+run = ["stylua --check metadata.lua hooks lib tests/hooks.lua", "sh -n scripts/flix"]
+
+[tasks.check]
+description = "Run offline checks"
+depends = ["test", "lint"]
+
+[tasks.smoke]
+description = "Install two real Flix versions and run a project in an isolated mise environment"
+run = "python3 tests/smoke.py"

@@ -1,0 +1,27 @@
+#!/bin/sh
+set -eu
+
+fail() {
+    printf 'mise-flix: %s\n' "$1" >&2
+    exit 1
+}
+
+if [ -n "${JAVA_HOME:-}" ]; then
+    java_cmd="$JAVA_HOME/bin/java"
+    [ -x "$java_cmd" ] || fail "JAVA_HOME does not contain an executable bin/java: $JAVA_HOME"
+else
+    java_cmd=$(command -v java) || fail 'Java 21 or newer is required. Set JAVA_HOME or add java to PATH.'
+fi
+
+if ! java_output=$("$java_cmd" -version 2>&1); then
+    fail "Could not start Java. Check JAVA_HOME and PATH.
+$java_output"
+fi
+
+java_version=$(printf '%s\n' "$java_output" | sed -n 's/^[^"]*version "\([^"]*\)".*/\1/p')
+java_major=${java_version%%[!0-9]*}
+[ -n "$java_major" ] || fail 'Could not determine the Java version. Java 21 or newer is required.'
+[ "$java_major" -ge 21 ] || fail "Java 21 or newer is required (found $java_version)."
+
+script_dir=$(CDPATH= cd -P -- "$(dirname -- "$0")" && pwd)
+exec "$java_cmd" -jar "$script_dir/../lib/flix.jar" "$@"
